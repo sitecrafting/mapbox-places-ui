@@ -1,0 +1,23 @@
+{
+  "name": "mapbox-places-ui",
+  "version": "0.0.1",
+  "description": "Google Places-style FAYT React component for Mapbox",
+  "main": "index.js",
+  "repository": "https://github.com/sitecrafting/mapbox-places-ui",
+  "author": "Coby Tamayo <ctamayo@sitecrafting.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "parcel": "^1.12.4"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.11.0",
+    "react-autosuggest": "^10.0.3"
+  }
+}
