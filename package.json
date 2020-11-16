@@ -10,14 +10,19 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "babel-jest": "^26.6.3",
+    "express": "^4.17.1",
     "jest": "^26.6.3",
-    "parcel": "^1.12.4"
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
+    "react-dom": "^17.0.1"
   },
   "scripts": {
+    "dev": "node server.js",
     "test": "jest"
   },
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.11.0",
+    "react": "^17.0.1",
     "react-autosuggest": "^10.0.3"
   }
 }
