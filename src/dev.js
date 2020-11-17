@@ -12,13 +12,9 @@ ReactDOM.render(
   <MapboxPlaces
     mapboxToken={token}
     initialValue={placesUi.dataset.value}
-    textInputProps={{
-      name: "coordinates"
-    }}
     coordinatesInputProps={{
       // On a real project, you'll probably want this to be hidden.
       type: "text",
-      name: "coordinates",
     }}
     geocodeQueryOptions={{
       countries: ["US"],

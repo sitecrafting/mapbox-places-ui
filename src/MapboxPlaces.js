@@ -102,8 +102,18 @@ function MapboxPlaces({
 
   const [coordinates, onSuggestionSelected] = useCoordinates("")
 
+  // Apply inputProps defaults.
   const [value, onChange] = useInputValue(initialValue)
-  const inputProps = Object.assign({}, textInputProps, { value, onChange })
+  const inputProps = Object.assign({
+    name: 'place_name',
+    type: 'text',
+  }, textInputProps, { value, onChange })
+
+  // Apply coordinatesInputProps defaults.
+  const coordProps = Object.assign({
+    name: 'coordinates',
+    type: 'hidden',
+  }, coordinatesInputProps, { value: coordinates, readOnly: true })
 
   return (
     <div {...containerProps}>
@@ -116,7 +126,7 @@ function MapboxPlaces({
         inputProps={inputProps}
         onSuggestionSelected={onSuggestionSelected}
       />
-      <input {...coordinatesInputProps} value={coordinates} readOnly={true} />
+      <input {...coordProps} />
     </div>
   )
 }
