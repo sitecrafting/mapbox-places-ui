@@ -4,6 +4,8 @@ import mapboxClient from '@mapbox/mapbox-sdk'
 import geocodingService from '@mapbox/mapbox-sdk/services/geocoding'
 import Autosuggest from 'react-autosuggest'
 
+import Suggestion from './Suggestion'
+
 /**
  * Given a Mapbox access token, return a tuple of the form:
  *
@@ -85,6 +87,7 @@ function MapboxPlaces({
   textInputProps,
   coordinatesInputProps,
   containerProps,
+  suggestionComponent,
   geocodeQueryOptions
 }) {
   // Wrap the Mapbox forwardGeocode service.
@@ -94,12 +97,8 @@ function MapboxPlaces({
     fetchSuggestions
   ] = useForwardGeocoder({ mapboxToken, geocodeQueryOptions })
 
-  // TODO Support overriding how each suggestion is rendered.
-  const renderSuggestion = (suggestion) => {
-    return (
-      <div className="suggestion">{suggestion.place_name}</div>
-    )
-  }
+  // Fallback on the built-in Suggestion component.
+  const renderSuggestion = suggestionComponent || Suggestion
 
   const [coordinates, onSuggestionSelected] = useCoordinates("")
 
@@ -113,7 +112,7 @@ function MapboxPlaces({
         onSuggestionsFetchRequested={fetchSuggestions}
         onSuggestionsClearRequested={clearSuggestions}
         getSuggestionValue={place => place.place_name}
-        renderSuggestion={renderSuggestion}
+        renderSuggestion={place => renderSuggestion({ place })}
         inputProps={inputProps}
         onSuggestionSelected={onSuggestionSelected}
       />

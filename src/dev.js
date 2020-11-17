@@ -27,6 +27,7 @@ ReactDOM.render(
       // NOTE: format is [longitude,latitude]
       proximity: [-122.4357428,47.2365706],
     }}
+    suggestionComponent={({ place }) => <h5>{place.place_name}</h5>}
   />,
   placesUi
 )
