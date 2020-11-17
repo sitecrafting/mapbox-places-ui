@@ -5,19 +5,6 @@ import geocodingService from '@mapbox/mapbox-sdk/services/geocoding'
 import Autosuggest from 'react-autosuggest'
 
 /**
- * Using the given GeocodingService client instance, perform the given query
- * against the Mapbox API.
- *
- * @return Promise a Promise that resolves to forwardGeocode results
- * @see https://github.com/mapbox/mapbox-sdk-js/blob/main/docs/services.md#forwardgeocode
- */
-function fetchPlaces(client, { query }) {
-  return client.forwardGeocode({
-    query
-  })
-}
-
-/**
  * Given a Mapbox access token, return a tuple of the form:
  *
  * [suggestions, setSuggestions, fetchSuggestions]
@@ -27,9 +14,10 @@ function fetchPlaces(client, { query }) {
  * - suggestions is the current array of Places
  * - setSuggestions is a hook function for setting suggestions directly
  * - fetchSuggestions is an async function for fetching suggestions for the
- *   current search term from Mapbox
+ *   current search term from Mapbox, which also takes into account the passed
+ *   geocodeQueryOptions
  */
-function useForwardGeocoder({ mapboxToken }) {
+function useForwardGeocoder({ mapboxToken, geocodeQueryOptions }) {
   const [client, _] = useState(
     geocodingService(mapboxClient({ accessToken: mapboxToken }))
   )
@@ -38,8 +26,11 @@ function useForwardGeocoder({ mapboxToken }) {
 
   const clearSuggestions = () => setSuggestions([])
 
+  // Build a handler fn for fetching suggestied Places from Mapbox,
+  // taking into account the user-provided query options.
   const fetchSuggestions = ({ value }) => {
-    fetchPlaces(client, { query: value })
+    const opts = Object.assign({}, geocodeQueryOptions, { query: value })
+    client.forwardGeocode(opts)
       .send()
       .then(res => setSuggestions(res.body.features))
   }
@@ -94,9 +85,14 @@ function MapboxPlaces({
   textInputProps,
   coordinatesInputProps,
   containerProps,
+  geocodeQueryOptions
 }) {
   // Wrap the Mapbox forwardGeocode service.
-  const [suggestions, clearSuggestions, fetchSuggestions] = useForwardGeocoder({ mapboxToken })
+  const [
+    suggestions,
+    clearSuggestions,
+    fetchSuggestions
+  ] = useForwardGeocoder({ mapboxToken, geocodeQueryOptions })
 
   // TODO Support overriding how each suggestion is rendered.
   const renderSuggestion = (suggestion) => {

@@ -20,6 +20,13 @@ ReactDOM.render(
       type: "text",
       name: "coordinates",
     }}
+    geocodeQueryOptions={{
+      countries: ["US"],
+      types: ["postcode", "district", "place", "locality", "neighborhood", "poi"],
+      // Bias results toward those closest to the SiteCrafting office.
+      // NOTE: format is [longitude,latitude]
+      proximity: [-122.4357428,47.2365706],
+    }}
   />,
   placesUi
 )
