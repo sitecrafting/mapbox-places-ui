@@ -74,7 +74,7 @@ function useCoordinates(initialCoordinates) {
  * - onChange is a standard onChange handler function
  */
 function useInputValue(initialValue) {
-  const [value, setValue] = useState(initialValue)
+  const [value, setValue] = useState(initialValue || "")
 
   const onChange = (_, { newValue }) => setValue(newValue)
 
