@@ -6,9 +6,14 @@ const placesUi = document.getElementById('mapbox-places-ui')
 
 ReactDOM.render(
   <MapboxPlaces
+    mapboxToken=""
     initialValue={placesUi.dataset.value}
-    inputProps={{
+    textInputProps={{
       name: "coordinates"
+    }}
+    coordinatesInputProps={{
+      type: "text",
+      name: "coordinates",
     }}
   />,
   placesUi
