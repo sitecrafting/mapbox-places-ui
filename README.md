@@ -23,9 +23,38 @@ yarn add @sitecrafting/mapbox-places-ui
 Simply pass your Mapbox access token as a prop, and the `MapboxPlaces` component will take care of the REST:
 
 ```jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
 import MapboxPlaces from '@sitecrafting/mapbox-places-ui'
 
-<MapboxPlaces mapboxToken="asdfqwerty" />
+ReactDOM.render(
+  <MapboxPlaces mapboxToken="asdfqwerty" />,
+  document.getElementById('places-input')
+)
+```
+
+Now, when the user types into the `#places-input` text field somewhere, they will see something like:
+
+![Mapbox Places UI example, in which a user types the letters "sitec" and gets a list of results including "SiteCrafting HQ, 2716 A St, Tacoma, Washington 98402, United States" at the top](https://raw.githubusercontent.com/sitecrafting/mapbox-places-ui/main/mapbox-places-ui-example.png)
+
+As you can probably tell, this component is almost entirely unopinionated about any kind of presentation or style. Each result is rendered inside an `<li>` element (an opinion from react-autosuggest). Beyond that, you have close to complete control over the rendered markup for suggestions.
+
+### Basic styles
+
+Here are some basic styles you can use with react-autosuggest to a get a vanilla UI:
+
+```css
+.react-autosuggest__suggestions-list{
+  list-style: none;
+  padding-left: 0;
+}
+.react-autosuggest__suggestion{
+  padding: 0.3em 0.4em;
+  cursor: pointer;
+}
+.react-autosuggest__suggestion--highlighted{
+  background: #eee;
+}
 ```
 
 ## Props
@@ -83,7 +112,7 @@ Stateless component (render function) for each suggestion. Passed a single `feat
 />
 ```
 
-Note that react-autosuggest already wraps this in a `<li>` element.
+Note that react-autosuggest already wraps this in an `<li>` element.
 
 ### geocodeQueryOptions
 
