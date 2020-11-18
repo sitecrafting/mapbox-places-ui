@@ -4,11 +4,27 @@ A Google Places-style find-as-you-type (FAYT) React component that consumes the 
 
 Wraps [react-autosuggest](http://react-autosuggest.js.org/) and the Mapbox JavaScript [geocoding service](https://github.com/mapbox/mapbox-sdk-js/blob/main/docs/services.md#geocoding).
 
+## Installation
+
+Install via `npm`:
+
+```sh
+npm install @sitecrafting/mapbox-places-ui
+```
+
+...or via `yarn`:
+
+```sh
+yarn add @sitecrafting/mapbox-places-ui
+```
+
 ## Basic Example
 
 Simply pass your Mapbox access token as a prop, and the `MapboxPlaces` component will take care of the REST:
 
 ```jsx
+import MapboxPlaces from '@sitecrafting/mapbox-places-ui'
+
 <MapboxPlaces mapboxToken="asdfqwerty" />
 ```
 
@@ -85,3 +101,20 @@ Extra options to pass to the Mapbox Geocoding Service's [`forwardGeocode()` meth
 ```
 
 Note that for `proximity` coordinates, Mapbox expects the format to be `[longitude, latitude]`.
+
+## Development
+
+Simply clone this repo, install dependencies, and start the dev server:
+
+```sh
+git clone git@github.com:sitecrafting/mapbox-places-ui.git
+cd mapbox-places-ui
+yarn
+yarn dev
+```
+
+This will start a dev server at `localhost:9000` and watch files in `src` for changes and automatically reload.
+
+The final step is to grab your Mapbox API access token and stick it in the query string, so that the dev URL looks like: `http://localhost:9000?<accessToken>`.
+
+Currently there are no tests. All this library really does is stitch together the Mapbox SDK with react-autosuggest in a simple and fairly predictable way.
