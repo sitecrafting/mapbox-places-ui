@@ -33,11 +33,13 @@ ReactDOM.render(
 )
 ```
 
-Now, when the user types into the `#places-input` text field somewhere, they will see something like:
+Now, when the user types into the `#places-input` text field, they will see something like:
 
 ![Mapbox Places UI example, in which a user types the letters "sitec" and gets a list of results including "SiteCrafting HQ, 2716 A St, Tacoma, Washington 98402, United States" at the top](https://raw.githubusercontent.com/sitecrafting/mapbox-places-ui/main/mapbox-places-ui-example.png)
 
-As you can probably tell, this component is almost entirely unopinionated about any kind of presentation or style. Each result is rendered inside an `<li>` element (an opinion from react-autosuggest). Beyond that, you have close to complete control over the rendered markup for suggestions.
+As you can probably tell, this component is almost entirely unopinionated about any kind of presentation or style. Each result is rendered inside an `<li>` element (an opinion from react-autosuggest). Beyond that, you have complete control over the rendered markup for suggestions.
+
+It also renders an `<input>`, by default of type `hidden`, containing the resolved coordinates of the place the user has selected. This can also be controlled to a large extent using custom props.
 
 ### Basic styles
 
