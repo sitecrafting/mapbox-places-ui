@@ -121,8 +121,8 @@ function MapboxPlaces({
         suggestions={suggestions}
         onSuggestionsFetchRequested={fetchSuggestions}
         onSuggestionsClearRequested={clearSuggestions}
-        getSuggestionValue={place => place.place_name}
-        renderSuggestion={place => renderSuggestion({ place })}
+        getSuggestionValue={feature => feature.place_name}
+        renderSuggestion={feature => renderSuggestion({ feature })}
         inputProps={inputProps}
         onSuggestionSelected={onSuggestionSelected}
       />

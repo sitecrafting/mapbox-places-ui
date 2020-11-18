@@ -21,9 +21,11 @@ ReactDOM.render(
       types: ["postcode", "district", "place", "locality", "neighborhood", "poi"],
       // Bias results toward those closest to the SiteCrafting office.
       // NOTE: format is [longitude,latitude]
-      proximity: [-122.4357428,47.2365706],
+      proximity: [-122.4357428, 47.2365706],
     }}
-    suggestionComponent={({ place }) => <h5>{place.place_name}</h5>}
+    suggestionComponent={({ feature }) => {
+      return <h5>{feature.place_name}</h5>
+    }}
   />,
   placesUi
 )
