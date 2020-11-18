@@ -56,12 +56,12 @@ Props for the top-level div containing the `Autosuggest` and coordinates input e
 
 ### suggestionComponent
 
-Render function for each suggestion. Passed a single `feature` prop, representing a single place returned within the features array from the Mapbox [Geocoding Response object](https://docs.mapbox.com/api/search/#geocoding-response-object):
+Stateless component (render function) for each suggestion. Passed a single `feature` prop, representing a single place returned within the `features` array from the Mapbox [Geocoding Response object](https://docs.mapbox.com/api/search/#geocoding-response-object):
 
 ```jsx
 <MapboxPlaces
   mapboxToken="asdfqwerty"
-  suggestionComponent={feature => {
+  suggestionComponent={({ feature }) => {
     return <div className="my-suggestion">{feature.place_name}</div>
   }}
 />
