@@ -59,7 +59,7 @@ Additional props to pass as [`inputProps`](https://github.com/moroshko/react-aut
 
 ### coordinatesFormat
 
-Controls how resolved coordinates are rendered in the separate coordinates input. Mapbox resolves coordinates as `[longitude, latitude]`, which may not always be what you want.
+Controls how resolved coordinates are rendered in the separate coordinates input. Mapbox resolves coordinates as `[longitude, latitude]`, which may not always be what you want, for example if you want to use the resolved coordinates with some other service that expects `"lat,lng"`.
 
 Options:
 

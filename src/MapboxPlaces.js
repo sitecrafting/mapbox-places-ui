@@ -51,13 +51,17 @@ function useForwardGeocoder({ mapboxToken, geocodeQueryOptions }) {
  * - onSuggestionSelected is a handler function to call when the user selects a
  *   new Place among the suggested results
  */
-function useCoordinates(initialCoordinates) {
+function useCoordinates(initialCoordinates, { coordinatesFormat }) {
   const [coordinates, setSelectedCoordinates] = useState("")
 
+  const reverseCoords = coordinatesFormat === 'lat,lng'
   const onSuggestionSelected = (_, { suggestion }) => {
-    // Set the new coordinates to the selected Place's lat,lng coords,
+    const mapboxCoords = suggestion.geometry.coordinates
+    const coords = reverseCoords ? mapboxCoords.reverse() : mapboxCoords
+
+    // Set the new coordinates to the selected Place's coords,
     // as a comma-separated string.
-    setSelectedCoordinates(suggestion.geometry.coordinates.join(','))
+    setSelectedCoordinates(coords.join(','))
   }
 
   return [coordinates, onSuggestionSelected]
@@ -86,9 +90,10 @@ function MapboxPlaces({
   initialValue,
   textInputProps,
   coordinatesInputProps,
+  coordinatesFormat,
   containerProps,
   suggestionComponent,
-  geocodeQueryOptions
+  geocodeQueryOptions,
 }) {
   // Wrap the Mapbox forwardGeocode service.
   const [
@@ -100,7 +105,9 @@ function MapboxPlaces({
   // Fallback on the built-in Suggestion component.
   const renderSuggestion = suggestionComponent || Suggestion
 
-  const [coordinates, onSuggestionSelected] = useCoordinates("")
+  const [coordinates, onSuggestionSelected] = useCoordinates("", {
+    coordinatesFormat
+  })
 
   // Apply inputProps defaults.
   const [value, onChange] = useInputValue(initialValue)
