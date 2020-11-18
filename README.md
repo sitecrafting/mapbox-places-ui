@@ -14,16 +14,16 @@ Simply pass your Mapbox access token as a prop, and the `MapboxPlaces` component
 
 ## Props
 
-| Prop                                   | Type     | Description                                                  |
-| -------------------------------------- | -------- | ------------------------------------------------------------ |
-| [`mapboxToken`](#mapboxtoken-required) | String   | **REQUIRED** API access token                                |
-| [`initialValue`](#initialvalue)        | String   | The initial text input value to set                          |
-| textInputProps                         | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
-| coordinatesInputProps                  | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
-| coordinatesFormat                      | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
-| containerProps                         | Object   | Props to pass to the container div for the entire Place UI   |
-| suggestionComponent                    | Function | Render function for each suggestion                          |
-| geocodeQueryOptions                    | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
+| Prop                                           | Type     | Description                                                  |
+| ---------------------------------------------- | -------- | ------------------------------------------------------------ |
+| [`mapboxToken`](#mapboxtoken-required)         | String   | **REQUIRED** API access token                                |
+| [`initialValue`](#initialvalue)                | String   | The initial text input value to set                          |
+| [textInputProps](#textinputprops)              | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
+| [coordinatesInputProps](#coordinateinputprops) | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
+| [coordinatesFormat](#coordinatesformat)        | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
+| [containerProps](#containerprops)              | Object   | Props to pass to the container div for the entire Place UI   |
+| [suggestionComponent](#suggestioncomponent)    | Function | Render function for each suggestion                          |
+| [geocodeQueryOptions](#geocodequeryoptions)    | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
 
 ### mapboxToken (required)
 
