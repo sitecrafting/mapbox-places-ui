@@ -6,6 +6,7 @@
   "repository": "https://github.com/sitecrafting/mapbox-places-ui",
   "author": "Coby Tamayo <ctamayo@sitecrafting.com>",
   "license": "MIT",
+  "private": false,
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
