@@ -145,8 +145,8 @@ Callback function invoked with the suggestion data and its resolved coordinates.
 <MapboxPlaces
   mapboxToken="asdfqwerty"
   coordinatesFormat="lat,lng" // this matters for the order of coords
-  geocodeQueryOptions={({ feature, coords }) => {
-    console.log(`the coordinates for ${feature.text} are '${coords.join(", ")}'`)
+  geocodeQueryOptions={({ suggestion, coords }) => {
+    console.log(`the coordinates for ${suggestion.text} are '${coords.join(", ")}'`)
   }}
 />
 ```
