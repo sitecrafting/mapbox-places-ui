@@ -61,16 +61,17 @@ Here are some basic styles you can use with react-autosuggest to a get a vanilla
 
 ## Props
 
-| Prop                                           | Type     | Description                                                  |
-| ---------------------------------------------- | -------- | ------------------------------------------------------------ |
-| [`mapboxToken`](#mapboxtoken-required)         | String   | **REQUIRED** API access token                                |
-| [`initialValue`](#initialvalue)                | String   | The initial text input value to set                          |
+| Prop                                             | Type     | Description                                                  |
+| ------------------------------------------------ | -------- | ------------------------------------------------------------ |
+| [`mapboxToken`](#mapboxtoken-required)           | String   | **REQUIRED** API access token                                |
+| [`initialValue`](#initialvalue)                  | String   | The initial text input value to set                          |
 | [`textInputProps`](#textinputprops)              | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
 | [`coordinatesInputProps`](#coordinateinputprops) | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
 | [`coordinatesFormat`](#coordinatesformat)        | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
 | [`containerProps`](#containerprops)              | Object   | Props to pass to the container div for the entire Place UI   |
 | [`suggestionComponent`](#suggestioncomponent)    | Function | Render function for each suggestion                          |
 | [`geocodeQueryOptions`](#geocodequeryoptions)    | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
+| [`onCoordinatesUpdated`](#oncoordinatesupdated)  | Function | Callback for when the user makes a selection and the resolved coordinates change. |
 
 ### mapboxToken (required)
 
@@ -132,6 +133,23 @@ Extra options to pass to the Mapbox Geocoding Service's [`forwardGeocode()` meth
 ```
 
 Note that for `proximity` coordinates, Mapbox expects the format to be `[longitude, latitude]`.
+
+### onCoordinatesUpdated
+
+Callback function invoked with the suggestion data and its resolved coordinates. Passed an object containing the following properties:
+
+* `coords`: The resolved coordinates as an **array**, in either `[lat, lng]` or `[lng, lat]` order according to `coordinatesFormat`.
+* `suggestion`: The Feature object directly from Mapbox.
+
+```jsx
+<MapboxPlaces
+  mapboxToken="asdfqwerty"
+  coordinatesFormat="lat,lng" // this matters for the order of coords
+  geocodeQueryOptions={({ feature, coords }) => {
+    console.log(`the coordinates for ${feature.text} are '${coords.join(", ")}'`)
+  }}
+/>
+```
 
 ## Development
 
