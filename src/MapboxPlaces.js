@@ -56,8 +56,8 @@ function useCoordinates(initialCoordinates, { coordinatesFormat, onCoordinatesUp
 
   const reverseCoords = coordinatesFormat === 'lat,lng'
   const onSuggestionSelected = (_, { suggestion }) => {
-    const mapboxCoords = suggestion.geometry.coordinates
-    const coords = reverseCoords ? mapboxCoords.reverse() : mapboxCoords
+    const [lng, lat] = suggestion.geometry.coordinates
+    const coords = reverseCoords ? [lat, lng] : [lng, lat]
 
     // Set the new coordinates to the selected Place's coords,
     // as a comma-separated string.
