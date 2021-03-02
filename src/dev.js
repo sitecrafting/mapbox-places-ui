@@ -12,6 +12,7 @@ ReactDOM.render(
   <MapboxPlaces
     mapboxToken={token}
     initialValue={placesUi.dataset.value}
+    initialCoordinates={placesUi.dataset.coordinates}
     onCoordinatesUpdated={({ suggestion, coords }) => {
       console.log(coords, suggestion)
     }}

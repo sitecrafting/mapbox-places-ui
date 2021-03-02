@@ -52,7 +52,7 @@ function useForwardGeocoder({ mapboxToken, geocodeQueryOptions }) {
  *   new Place among the suggested results
  */
 function useCoordinates(initialCoordinates, { coordinatesFormat, onCoordinatesUpdated }) {
-  const [coordinates, setSelectedCoordinates] = useState("")
+  const [coordinates, setSelectedCoordinates] = useState(initialCoordinates)
 
   const reverseCoords = coordinatesFormat === 'lat,lng'
   const onSuggestionSelected = (_, { suggestion }) => {
@@ -92,6 +92,7 @@ function useInputValue(initialValue) {
 function MapboxPlaces({
   mapboxToken,
   initialValue,
+  initialCoordinates,
   textInputProps,
   coordinatesInputProps,
   coordinatesFormat,
@@ -110,7 +111,7 @@ function MapboxPlaces({
   // Fallback on the built-in Suggestion component.
   const renderSuggestion = suggestionComponent || Suggestion
 
-  const [coordinates, onSuggestionSelected] = useCoordinates("", {
+  const [coordinates, onSuggestionSelected] = useCoordinates(initialCoordinates, {
     coordinatesFormat,
     onCoordinatesUpdated,
   })

@@ -65,6 +65,7 @@ Here are some basic styles you can use with react-autosuggest to a get a vanilla
 | ------------------------------------------------ | -------- | ------------------------------------------------------------ |
 | [`mapboxToken`](#mapboxtoken-required)           | String   | **REQUIRED** API access token                                |
 | [`initialValue`](#initialvalue)                  | String   | The initial text input value to set                          |
+| [`initialCoordinates`](#initialcoordinates)      | String   | The initial text input value to set                          |
 | [`textInputProps`](#textinputprops)              | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
 | [`coordinatesInputProps`](#coordinateinputprops) | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
 | [`coordinatesFormat`](#coordinatesformat)        | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
@@ -80,6 +81,10 @@ The Mapbox API access token for your account.
 ### initialValue
 
 The initial text input string to set on the `Autosuggest` component.
+
+### initialCoordinates
+
+The initial (string) value of the the hidden `coordinates` input.
 
 ### textInputProps
 
