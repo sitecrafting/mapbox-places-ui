@@ -100,9 +100,6 @@ function MapboxPlaces({
   suggestionComponent,
   geocodeQueryOptions,
   onCoordinatesUpdated,
-  eventDispatcher,
-  eventType,
-  getCurrentPlace,
 }) {
   // Wrap the Mapbox forwardGeocode service.
   const [
@@ -129,18 +126,6 @@ function MapboxPlaces({
     name: 'place_name',
     type: 'text',
   }, textInputProps, { value, onChange })
-
-  if (
-    eventDispatcher && typeof eventDispatcher.addEventListener === 'function'
-    && typeof getCurrentPlace === 'function'
-  ) {
-    eventDispatcher.addEventListener(eventType || 'change', (e) => {
-      const { placeName, coordinates } = getCurrentPlace()
-      // Simulate a Feature selection and set coordinates directly.
-      onChange(null, { newValue: placeName })
-      setCoordinates(coordinates)
-    })
-  }
 
   // Clear coordinates when the user clears the input.
   if (coordinates && value === '') {

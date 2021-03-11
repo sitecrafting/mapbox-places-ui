@@ -61,21 +61,18 @@ Here are some basic styles you can use with react-autosuggest to a get a vanilla
 
 ## Props
 
-| Prop                                             | Type        | Description                                                  |
-| ------------------------------------------------ | ----------- | ------------------------------------------------------------ |
-| [`mapboxToken`](#mapboxtoken-required)           | String      | **REQUIRED** API access token                                |
-| [`initialValue`](#initialvalue)                  | String      | The initial text input value to set                          |
-| [`initialCoordinates`](#initialcoordinates)      | String      | The initial text input value to set                          |
-| [`textInputProps`](#textinputprops)              | Object      | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
-| [`coordinatesInputProps`](#coordinateinputprops) | Object      | Props to pass to the input element containing the resolved (geocoded) coordinates |
-| [`coordinatesFormat`](#coordinatesformat)        | String      | Controls how resolved coordinates are rendered in the separate coordinates input |
-| [`containerProps`](#containerprops)              | Object      | Props to pass to the container div for the entire Place UI   |
-| [`suggestionComponent`](#suggestioncomponent)    | Function    | Render function for each suggestion                          |
-| [`geocodeQueryOptions`](#geocodequeryoptions)    | Object      | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
-| [`onCoordinatesUpdated`](#oncoordinatesupdated)  | Function    | Callback for when the user makes a selection and the resolved coordinates change |
-| [`eventDispatcher`](#eventdispatcher)            | EventTarget | An [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget) object (such as a DOM Node) to listen to for updates |
-| [`eventType`](#eventtype)                        | String      | An event type such as `"click"` to listen for on `eventDispatcher` |
-| [`getCurrentPlace`](#getcurrentplace)            | Function    | A callback to get the current Place name and coordinates to set directly |
+| Prop                                             | Type     | Description                                                  |
+| ------------------------------------------------ | -------- | ------------------------------------------------------------ |
+| [`mapboxToken`](#mapboxtoken-required)           | String   | **REQUIRED** API access token                                |
+| [`initialValue`](#initialvalue)                  | String   | The initial text input value to set                          |
+| [`initialCoordinates`](#initialcoordinates)      | String   | The initial text input value to set                          |
+| [`textInputProps`](#textinputprops)              | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
+| [`coordinatesInputProps`](#coordinateinputprops) | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
+| [`coordinatesFormat`](#coordinatesformat)        | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
+| [`containerProps`](#containerprops)              | Object   | Props to pass to the container div for the entire Place UI   |
+| [`suggestionComponent`](#suggestioncomponent)    | Function | Render function for each suggestion                          |
+| [`geocodeQueryOptions`](#geocodequeryoptions)    | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
+| [`onCoordinatesUpdated`](#oncoordinatesupdated)  | Function | Callback for when the user makes a selection and the resolved coordinates change. |
 
 ### mapboxToken (required)
 
@@ -158,63 +155,6 @@ Callback function invoked with the suggestion data and its resolved coordinates.
   }}
 />
 ```
-
-### eventDispatcher
-
-Sometimes you may want to load external data into the inputs rendered internally by `MapboxPlaces`. For example, you might be loading persistent user location data from somewhere on page load, or in reaction to the user taking some action like clicking a "Use My Location" button. The `MapboxPlaces` component does not expose `value` as a prop directly, but it does allow you to subscribe to updates from an external source which can provide a value for the Place name and coordinates to set.
-
-This is where the `eventDispatcher` prop comes in. Consider this `<select>` element:
-
-```html
-<select id="place-select">
-  <option value="-123,456">Place One</option>
-  <option value="-345,678">Place Two</option>
-</select>
-```
-
-To trigger a change the Places UI when this element changes, you can do something like this:
-
-```js
-const placeSelect = document.getElementById('place-select')
-
-const onExternalSelection = () => {
-  const coordinates = placeSelect.value
-  // Get the label for the selected option.
-  const placeName   = placeSelect
-    .querySelector(`option[value="${coordinates}"]`)
-    .innerText
-  return { placeName, coordinates }
-}
-
-<MapboxPlaces
-  mapboxToken="asdfqwerty"
-  eventDispatcher={placeSelect}
-  getCurrentPlace={onExternalSelection}
-/>
-```
-
-In this example, `MapboxPlaces` listens for a `change` event on the `placeSelect` element. When `placeSelect` changes, the `getCurrentPlaces` function is called and the result is used to set the text input value and (typically hidden) `coordinates` value inside `MapboxPlaces`. **Remember to also pass `getCurrentPlaces` as a prop, or nothing will happen!**
-
-You can change the event it's listening for with `eventType`.
-
-### eventType
-
-The Event type to listen for on `eventDispatcher`. Default: `"change"`
-
-### getCurrentPlace
-
-Function to call when an event of type `eventType` is dispatched on `eventDispatcher`. This function should return an object with the following shape:
-
-```js
-{
-  placeName: "Your Place Name",
-  coordinates: "-122.12345,45.56789"
-}
-```
-
-These are then used internally by `MapboxPlaces` to set the text input and `coordinates` input values directly.
-
-No further geocoding is done with the results from this function.
 
 ## Development
 
