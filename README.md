@@ -23,14 +23,35 @@ yarn add @sitecrafting/mapbox-places-ui
 Simply pass your Mapbox access token as a prop, and the `MapboxPlaces` component will take care of the REST:
 
 ```jsx
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import MapboxPlaces from '@sitecrafting/mapbox-places-ui'
 
-ReactDOM.render(
-  <MapboxPlaces mapboxToken="asdfqwerty" />,
-  document.getElementById('places-input')
-)
+function MyPlaces() {
+  // You manage your own state!
+  const [textInputValue, setInputValue] = useState('Tacoma, WA')
+  const [coordinates, setCoordinates] = useState('122.4357428,47.2365706')
+
+  return <MapboxPlaces
+    mapboxToken="asdfqwerty"
+    textInputProps={{
+      value: textInputValue,
+      onChange: (_, { newValue }) => {
+        console.log('value changed: ' + newValue)
+        setInputValue(newValue)
+      }
+    }}
+    onSuggestionSelected={({ suggestion, coords, coordsValue }) => {
+      console.log('suggestion selected!', suggestion, coords)
+      setCoordinates(coordsValue)
+    }}
+    coordinatesInputProps={{
+      value: coordinates,
+    }}
+  />
+}
+
+ReactDOM.render(<MyPlaces />, document.getElementById('places-input'))
 ```
 
 Now, when the user types into the `#places-input` text field, they will see something like:
@@ -61,38 +82,40 @@ Here are some basic styles you can use with react-autosuggest to a get a vanilla
 
 ## Props
 
-| Prop                                             | Type     | Description                                                  |
-| ------------------------------------------------ | -------- | ------------------------------------------------------------ |
-| [`mapboxToken`](#mapboxtoken-required)           | String   | **REQUIRED** API access token                                |
-| [`initialValue`](#initialvalue)                  | String   | The initial text input value to set                          |
-| [`initialCoordinates`](#initialcoordinates)      | String   | The initial text input value to set                          |
-| [`textInputProps`](#textinputprops)              | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
-| [`coordinatesInputProps`](#coordinateinputprops) | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
-| [`coordinatesFormat`](#coordinatesformat)        | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
-| [`containerProps`](#containerprops)              | Object   | Props to pass to the container div for the entire Place UI   |
-| [`suggestionComponent`](#suggestioncomponent)    | Function | Render function for each suggestion                          |
-| [`geocodeQueryOptions`](#geocodequeryoptions)    | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
-| [`onCoordinatesUpdated`](#oncoordinatesupdated)  | Function | Callback for when the user makes a selection and the resolved coordinates change. |
+| Prop                                                     | Type     | Description                                                  |
+| -------------------------------------------------------- | -------- | ------------------------------------------------------------ |
+| [`mapboxToken`](#mapboxtoken-required)                   | String   | **REQUIRED** API access token                                |
+| [`onSuggestionSelected`](#onsuggestionselected-required) | Function | Callback for when the user makes a selection and the resolved coordinates change. |
+| [`textInputProps`](#textinputprops-required)             | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
+| [`coordinatesInputProps`](#coordinatesinputprops)        | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
+| [`coordinatesFormat`](#coordinatesformat)                | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
+| [`containerProps`](#containerprops)                      | Object   | Props to pass to the container div for the entire Place UI   |
+| [`suggestionComponent`](#suggestioncomponent)            | Function | Render function for each suggestion                          |
+| [`geocodeQueryOptions`](#geocodequeryoptions)            | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
 
 ### mapboxToken (required)
 
 The Mapbox API access token for your account.
 
-### initialValue
+### textInputProps (required)
 
-The initial text input string to set on the `Autosuggest` component.
-
-### initialCoordinates
-
-The initial (string) value of the the hidden `coordinates` input.
-
-### textInputProps
+An object that MUST contain, at least, a `value` prop. `MapboxPlaces` has no opinion about how to manage your coordinates state beyond the fact that you must manage it yourself.
 
 Additional props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component. Note that `value` and `onChange` cannot be overridden.
 
-### coordinateInputProps
+### coordinatesInputProps (required)
+
+An object that MUST contain, at least, a `value` prop. `MapboxPlaces` has no opinion about how to manage your coordinates state beyond the fact that you must manage it yourself.
 
 `MapboxPlaces` renders a read-only `input` element to contain the resolved coordinates. This is typically a `hidden` field, but it doesn't need to be. The `coordinateInputProps` controls the props (aside from the reserved `value` and `readOnly` props) passed to this input element.
+
+### onSuggestionSelected (required)
+
+A callback for when the user selects a Mapbox suggestion. Called with an Object with the following props:
+
+* `suggestion`: the full Suggestion object from Mapbox
+* `coords`: an array of length 2 containing latitude and longitude. Order depends on `coordinatesFormat`.
+* `coordsValue`: the formatted `coords` as a comma-separated string. As with the `coords` Array, order depends on `coordinatesFormat`. This value is what you should use, unmodified, as `coordinateInputProps.value` unless you're doing some kind of advanced filtering.
 
 ### coordinatesFormat
 

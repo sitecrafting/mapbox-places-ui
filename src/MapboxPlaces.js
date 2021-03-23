@@ -40,67 +40,26 @@ function useForwardGeocoder({ mapboxToken, geocodeQueryOptions }) {
   return [suggestions, clearSuggestions, fetchSuggestions]
 }
 
-/**
- * Given an initial coordinates ("lat,lng") string, return a tuple of the form:
- *
- * [coordinates, onSuggestionSelected]
- *
- * where:
- *
- * - coordinates is the current coordinates string
- * - onSuggestionSelected is a handler function to call when the user selects a
- *   new Place among the suggested results
- */
-function useCoordinates(initialCoordinates, { coordinatesFormat, onCoordinatesUpdated }) {
-  const [coordinates, setCoordinates] = useState(initialCoordinates)
-
-  const reverseCoords = coordinatesFormat === 'lat,lng'
-  const onSuggestionSelected = (_, { suggestion }) => {
-    const [lng, lat] = suggestion.geometry.coordinates
-    const coords = reverseCoords ? [lat, lng] : [lng, lat]
-
-    // Set the new coordinates to the selected Place's coords,
-    // as a comma-separated string.
-    setCoordinates(coords.join(','))
-
-    if (typeof onCoordinatesUpdated === 'function') {
-      onCoordinatesUpdated({ coords, suggestion })
-    }
-  }
-
-  return [coordinates, setCoordinates, onSuggestionSelected]
-}
-
-/**
- * Given an initial form input value, return a tuple of the form:
- *
- * [value, onChange]
- *
- * where:
- *
- * - value is the current value of the input element
- * - onChange is a standard onChange handler function
- */
-function useInputValue(initialValue) {
-  const [value, setValue] = useState(initialValue || "")
-
-  const onChange = (_, { newValue }) => setValue(newValue)
-
-  return [value, onChange]
-}
-
 function MapboxPlaces({
   mapboxToken,
-  initialValue,
-  initialCoordinates,
   textInputProps,
   coordinatesInputProps,
   coordinatesFormat,
+  onSuggestionSelected,
   containerProps,
   suggestionComponent,
   geocodeQueryOptions,
-  onCoordinatesUpdated,
 }) {
+  if (typeof onSuggestionSelected !== 'function') {
+    throw new Error('onSuggestionSelected must be a function!')
+  }
+  if (typeof textInputProps.value !== 'string') {
+    throw new Error('textInputProps.value must be a string!')
+  }
+  if (typeof coordinatesInputProps.value !== 'string') {
+    throw new Error('coordinatesInputProps.value must be a string!')
+  }
+
   // Wrap the Mapbox forwardGeocode service.
   const [
     suggestions,
@@ -111,32 +70,37 @@ function MapboxPlaces({
   // Fallback on the built-in Suggestion component.
   const renderSuggestion = suggestionComponent || Suggestion
 
-  const [
-    coordinates,
-    setCoordinates,
-    onSuggestionSelected,
-  ] = useCoordinates(initialCoordinates, {
-    coordinatesFormat,
-    onCoordinatesUpdated,
-  })
+  // Mapbox uses lng,lat format. Should we invoke our on-selected callback
+  // with reversed coordinates?
+  const shouldReverseCoords = coordinatesFormat === 'lat,lng'
+
+  // Close around onSuggestionSelected so we can pass it more information
+  // than AutoSuggest alone gives us.
+  const autoSuggestSelectedCallback = (_, { suggestion }) => {
+    const [lng, lat]  = suggestion.geometry.coordinates
+    const coords      = shouldReverseCoords ? [lat, lng] : [lng, lat]
+    const coordsValue = coords.join(',')
+
+    onSuggestionSelected({ coords, coordsValue, suggestion })
+  }
 
   // Apply inputProps defaults.
-  const [value, onChange] = useInputValue(initialValue)
   const inputProps = Object.assign({
     name: 'place_name',
     type: 'text',
-  }, textInputProps, { value, onChange })
-
-  // Clear coordinates when the user clears the input.
-  if (coordinates && value === '') {
-    setCoordinates('')
-  }
+  }, textInputProps)
 
   // Apply coordinatesInputProps defaults.
   const coordProps = Object.assign({
     name: 'coordinates',
     type: 'hidden',
-  }, coordinatesInputProps, { value: coordinates, readOnly: true })
+  }, coordinatesInputProps, { readOnly: true })
+
+  // Clear coordinates when the user clears the input.
+  // TODO parameterize this behavior as a prop?
+  if (coordProps.value && textInputProps.value === '') {
+    coordProps.value = ''
+  }
 
   return (
     <div {...containerProps}>
@@ -147,7 +111,7 @@ function MapboxPlaces({
         getSuggestionValue={feature => feature.place_name}
         renderSuggestion={feature => renderSuggestion({ feature })}
         inputProps={inputProps}
-        onSuggestionSelected={onSuggestionSelected}
+        onSuggestionSelected={autoSuggestSelectedCallback}
       />
       <input {...coordProps} />
     </div>
