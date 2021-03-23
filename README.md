@@ -85,9 +85,9 @@ Here are some basic styles you can use with react-autosuggest to a get a vanilla
 | Prop                                                     | Type     | Description                                                  |
 | -------------------------------------------------------- | -------- | ------------------------------------------------------------ |
 | [`mapboxToken`](#mapboxtoken-required)                   | String   | **REQUIRED** API access token                                |
-| [`onSuggestionSelected`](#onsuggestionselected-required) | Function | Callback for when the user makes a selection and the resolved coordinates change. |
-| [`textInputProps`](#textinputprops-required)             | Object   | Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
-| [`coordinatesInputProps`](#coordinatesinputprops)        | Object   | Props to pass to the input element containing the resolved (geocoded) coordinates |
+| [`onSuggestionSelected`](#onsuggestionselected-required) | Function | **REQUIRED** Callback for when the user makes a selection and the resolved coordinates change. |
+| [`textInputProps`](#textinputprops-required)             | Object   | **REQUIRED** Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
+| [`coordinatesInputProps`](#coordinatesinputprops)        | Object   | **REQUIRED** Props to pass to the input element containing the resolved (geocoded) coordinates |
 | [`coordinatesFormat`](#coordinatesformat)                | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
 | [`containerProps`](#containerprops)                      | Object   | Props to pass to the container div for the entire Place UI   |
 | [`suggestionComponent`](#suggestioncomponent)            | Function | Render function for each suggestion                          |
