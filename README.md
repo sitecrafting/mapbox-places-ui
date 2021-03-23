@@ -82,16 +82,16 @@ Here are some basic styles you can use with react-autosuggest to a get a vanilla
 
 ## Props
 
-| Prop                                                     | Type     | Description                                                  |
-| -------------------------------------------------------- | -------- | ------------------------------------------------------------ |
-| [`mapboxToken`](#mapboxtoken-required)                   | String   | **REQUIRED** API access token                                |
-| [`onSuggestionSelected`](#onsuggestionselected-required) | Function | **REQUIRED** Callback for when the user makes a selection and the resolved coordinates change. |
-| [`textInputProps`](#textinputprops-required)             | Object   | **REQUIRED** Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
-| [`coordinatesInputProps`](#coordinatesinputprops)        | Object   | **REQUIRED** Props to pass to the input element containing the resolved (geocoded) coordinates |
-| [`coordinatesFormat`](#coordinatesformat)                | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
-| [`containerProps`](#containerprops)                      | Object   | Props to pass to the container div for the entire Place UI   |
-| [`suggestionComponent`](#suggestioncomponent)            | Function | Render function for each suggestion                          |
-| [`geocodeQueryOptions`](#geocodequeryoptions)            | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
+| Prop                                                       | Type     | Description                                                  |
+| --------------------------------------------------------   | -------- | ------------------------------------------------------------ |
+| [`mapboxToken`](#mapboxtoken-required)                     | String   | **REQUIRED** API access token                                |
+| [`onSuggestionSelected`](#onsuggestionselected-required)   | Function | **REQUIRED** Callback for when the user makes a selection and the resolved coordinates change. |
+| [`textInputProps`](#textinputprops-required)               | Object   | **REQUIRED** Props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component |
+| [`coordinatesInputProps`](#coordinatesinputprops-required) | Object   | **REQUIRED** Props to pass to the input element containing the resolved (geocoded) coordinates |
+| [`coordinatesFormat`](#coordinatesformat)                  | String   | Controls how resolved coordinates are rendered in the separate coordinates input |
+| [`containerProps`](#containerprops)                        | Object   | Props to pass to the container div for the entire Place UI   |
+| [`suggestionComponent`](#suggestioncomponent)              | Function | Render function for each suggestion                          |
+| [`geocodeQueryOptions`](#geocodequeryoptions)              | Object   | Query options to pass to Mapbox's `geocodingService.forwardQuery()` method |
 
 ### mapboxToken (required)
 
@@ -101,7 +101,7 @@ The Mapbox API access token for your account.
 
 An object that MUST contain, at least, a `value` prop. `MapboxPlaces` has no opinion about how to manage your coordinates state beyond the fact that you must manage it yourself.
 
-Additional props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component. Note that `value` and `onChange` cannot be overridden.
+Additional props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component.
 
 ### coordinatesInputProps (required)
 
