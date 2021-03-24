@@ -6,40 +6,6 @@ import Autosuggest from 'react-autosuggest'
 
 import Suggestion from './Suggestion'
 
-/**
- * Given a Mapbox access token, return a tuple of the form:
- *
- * [suggestions, setSuggestions, fetchSuggestions]
- *
- * where:
- *
- * - suggestions is the current array of Places
- * - setSuggestions is a hook function for setting suggestions directly
- * - fetchSuggestions is an async function for fetching suggestions for the
- *   current search term from Mapbox, which also takes into account the passed
- *   geocodeQueryOptions
- */
-function useForwardGeocoder({ mapboxToken, geocodeQueryOptions }) {
-  const [client, _] = useState(
-    geocodingService(mapboxClient({ accessToken: mapboxToken }))
-  )
-
-  const [suggestions, setSuggestions] = useState([])
-
-  const clearSuggestions = () => setSuggestions([])
-
-  // Build a handler fn for fetching suggestied Places from Mapbox,
-  // taking into account the user-provided query options.
-  const fetchSuggestions = ({ value }) => {
-    const opts = Object.assign({}, geocodeQueryOptions, { query: value })
-    client.forwardGeocode(opts)
-      .send()
-      .then(res => setSuggestions(res.body.features))
-  }
-
-  return [suggestions, clearSuggestions, fetchSuggestions]
-}
-
 function MapboxPlaces({
   mapboxToken,
   textInputProps,
@@ -63,12 +29,20 @@ function MapboxPlaces({
     throw new Error('coordinatesInputProps.value must be a string!')
   }
 
-  // Wrap the Mapbox forwardGeocode service.
-  const [
-    suggestions,
-    clearSuggestions,
-    fetchSuggestions
-  ] = useForwardGeocoder({ mapboxToken, geocodeQueryOptions })
+  const [client, _] = useState(
+    geocodingService(mapboxClient({ accessToken: mapboxToken }))
+  )
+
+  const [suggestions, setSuggestions] = useState([])
+
+  // Build a handler fn for fetching suggestied Places from Mapbox,
+  // taking into account the user-provided query options.
+  const fetchSuggestions = ({ value }) => {
+    const opts = Object.assign({}, geocodeQueryOptions, { query: value })
+    client.forwardGeocode(opts)
+      .send()
+      .then(res => setSuggestions(res.body.features))
+  }
 
   // Fallback on the built-in Suggestion component.
   const renderSuggestion = suggestionComponent || Suggestion
@@ -110,7 +84,7 @@ function MapboxPlaces({
       <Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={fetchSuggestions}
-        onSuggestionsClearRequested={clearSuggestions}
+        onSuggestionsClearRequested={() => setSuggestions([])}
         getSuggestionValue={feature => feature.place_name}
         renderSuggestion={feature => renderSuggestion({ feature })}
         inputProps={inputProps}
