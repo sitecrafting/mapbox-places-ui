@@ -56,6 +56,9 @@ function MapboxPlaces({
   if (typeof textInputProps.value !== 'string') {
     throw new Error('textInputProps.value must be a string!')
   }
+  if (typeof textInputProps.onChange !== 'function') {
+    throw new Error('textInputProps.onChange must be a function!')
+  }
   if (typeof coordinatesInputProps.value !== 'string') {
     throw new Error('coordinatesInputProps.value must be a string!')
   }

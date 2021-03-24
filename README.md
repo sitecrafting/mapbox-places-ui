@@ -99,7 +99,7 @@ The Mapbox API access token for your account.
 
 ### textInputProps (required)
 
-An object that MUST contain, at least, a `value` prop. `MapboxPlaces` has no opinion about how to manage your coordinates state beyond the fact that you must manage it yourself.
+An object that MUST contain, at least, a `value` prop (string) and an `onChange` prop (function). `MapboxPlaces` has no opinion about how to manage your coordinates state beyond the fact that you must manage it yourself.
 
 Additional props to pass as [`inputProps`](https://github.com/moroshko/react-autosuggest#input-props-prop) to the `Autosuggest` component.
 
